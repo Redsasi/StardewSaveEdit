@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StardewSaveEditor", "StardewSaveEditor\StardewSaveEditor.csproj", "{76D33006-087A-48AD-89A7-B80E1161BD2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76D33006-087A-48AD-89A7-B80E1161BD2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76D33006-087A-48AD-89A7-B80E1161BD2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76D33006-087A-48AD-89A7-B80E1161BD2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76D33006-087A-48AD-89A7-B80E1161BD2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49DC7603-6BA0-440F-B1B6-ABA790CAF90F}
+	EndGlobalSection
+EndGlobal
