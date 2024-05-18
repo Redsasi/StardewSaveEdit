@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnOpenSaveFile = new System.Windows.Forms.Button();
-            this.ofdStardewSave = new System.Windows.Forms.OpenFileDialog();
             this.tbxXml = new System.Windows.Forms.TextBox();
             this.tbxOwnName = new System.Windows.Forms.TextBox();
             this.lblOwner = new System.Windows.Forms.Label();
@@ -51,10 +50,6 @@
             this.btnOpenSaveFile.Text = "Open Save File";
             this.btnOpenSaveFile.UseVisualStyleBackColor = true;
             this.btnOpenSaveFile.Click += new System.EventHandler(this.btnOpenSaveFolder_Click);
-            // 
-            // ofdStardewSave
-            // 
-            this.ofdStardewSave.FileName = "openFileDialog1";
             // 
             // tbxXml
             // 
@@ -141,7 +136,6 @@
 
         #endregion
         private System.Windows.Forms.Button btnOpenSaveFile;
-        private System.Windows.Forms.OpenFileDialog ofdStardewSave;
         private System.Windows.Forms.TextBox tbxXml;
         private System.Windows.Forms.TextBox tbxOwnName;
         private System.Windows.Forms.Label lblOwner;
