@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StardewSaveEditor.StardewValley;
+using System;
+using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace StardewSaveEditor
 {
     public partial class MainMenu : Form
     {
-
+        XmlStardewSaveEditor xsse;
         public MainMenu()
         {
             InitializeComponent();
@@ -20,7 +16,53 @@ namespace StardewSaveEditor
 
         private void btnOpenSaveFolder_Click(object sender, EventArgs e)
         {
-            Folder saveFolder = fbdSaveFolder.ShowDialog();
+            fbdStardewSave.ShowDialog();
+
+            string path = fbdStardewSave.SelectedPath;
+
+            xsse = new XmlStardewSaveEditor(path);
+
+            setData();
+        }
+
+        public void setData()
+        {
+            setOwnerName();
+            setFarmersListBox();
+        }
+        public void setOwnerName()
+        {
+            tbxOwnName.Text = xsse.getPlayerName();
+        }
+
+        public void setFarmersListBox()
+        {
+            lbxFarmers.Items.Clear();
+
+            XmlNodeList nodeFarmers = xsse.getFarmers();
+
+            foreach (XmlNode nodeFarmer in nodeFarmers)
+            {
+                lbxFarmers.Items.Add(nodeFarmer.SelectSingleNode("name").InnerText);
+            }
+        }
+
+        private void btnSwapOwner_Click(object sender, EventArgs e)
+        {
+            int idFarmer = lbxFarmers.SelectedIndex;
+            if(idFarmer != -1)
+            {
+                xsse.ChangeSaveOwner(idFarmer);
+
+                setData();
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            fbdNewSave.ShowDialog();
+
+            xsse.Save(fbdNewSave.SelectedPath);
         }
     }
 }
