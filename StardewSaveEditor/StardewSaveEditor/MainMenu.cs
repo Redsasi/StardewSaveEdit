@@ -18,8 +18,11 @@ namespace StardewSaveEditor
         {
             fbdStardewSave.ShowDialog();
 
-            string path = fbdStardewSave.SelectedPath;
+            LoadSave(fbdStardewSave.SelectedPath);
+        }
 
+        private void LoadSave(string path)
+        {
             xsse = new XmlStardewSaveEditor(path);
 
             setData();
@@ -63,6 +66,17 @@ namespace StardewSaveEditor
             fbdNewSave.ShowDialog();
 
             xsse.Save(fbdNewSave.SelectedPath);
+        }
+
+        private void MainMenu_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void MainMenu_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] folderPath = (string[])e.Data.GetData(DataFormats.FileDrop);
+            LoadSave(folderPath[0]);
         }
     }
 }

@@ -116,6 +116,7 @@
             // 
             // MainMenu
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 631);
@@ -129,6 +130,8 @@
             this.Controls.Add(this.btnOpenSaveFile);
             this.Name = "MainMenu";
             this.Text = "MainMenu";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainMenu_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainMenu_DragEnter);
             this.ResumeLayout(false);
             this.PerformLayout();
 
