@@ -9,30 +9,70 @@ namespace StardewSaveEditor
     public partial class MainMenu : Form
     {
         XmlStardewSaveEditor xsse;
+        string saveFolderPath;
         public MainMenu()
         {
             InitializeComponent();
         }
 
-        private void btnOpenSaveFolder_Click(object sender, EventArgs e)
+        #region Load Save
+        private void tsbLoadSave_Click(object sender, EventArgs e)
         {
             fbdStardewSave.ShowDialog();
-
-            LoadSave(fbdStardewSave.SelectedPath);
+            saveFolderPath = fbdStardewSave.SelectedPath;
+            LoadSave(saveFolderPath);
+        }
+        private void MainMenu_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] folderPath = (string[])e.Data.GetData(DataFormats.FileDrop);
+            saveFolderPath = folderPath[0];
+            LoadSave(saveFolderPath);
         }
 
         private void LoadSave(string path)
         {
             xsse = new XmlStardewSaveEditor(path);
 
-            setData();
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+            TreeNode tnDir = tvSaveLoaded.Nodes.Add(dirInfo.Name);
+            foreach (FileInfo file in dirInfo.GetFiles())
+            {
+                tnDir.Nodes.Add(file.Name);
+            }
+
+            tvSaveLoaded.ExpandAll();
+
+            LoadData();
         }
 
-        public void setData()
+        #endregion
+
+        #region Save
+        private void tsbSave_Click(object sender, EventArgs e)
+        {
+            xsse.Save(saveFolderPath);
+        }
+
+        private void tsbSaveAs_Click(object sender, EventArgs e)
+        {
+            fbdNewSave.ShowDialog();
+            string saveAsFolderPath = Path.Combine(fbdNewSave.SelectedPath, xsse.getSaveName());
+            if (!Directory.Exists(saveAsFolderPath)) Directory.CreateDirectory(saveAsFolderPath);
+            xsse.Save(saveAsFolderPath);
+
+            saveFolderPath = saveAsFolderPath;
+        }
+
+        #endregion
+
+        public void LoadData()
         {
             setOwnerName();
             setFarmersListBox();
         }
+
+
         public void setOwnerName()
         {
             tbxOwnName.Text = xsse.getPlayerName();
@@ -57,15 +97,8 @@ namespace StardewSaveEditor
             {
                 xsse.ChangeSaveOwner(idFarmer);
 
-                setData();
+                LoadData();
             }
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            fbdNewSave.ShowDialog();
-
-            xsse.Save(fbdNewSave.SelectedPath);
         }
 
         private void MainMenu_DragEnter(object sender, DragEventArgs e)
@@ -73,10 +106,9 @@ namespace StardewSaveEditor
             e.Effect = DragDropEffects.All;
         }
 
-        private void MainMenu_DragDrop(object sender, DragEventArgs e)
+        private void tbxOwnName_Validated(object sender, EventArgs e)
         {
-            string[] folderPath = (string[])e.Data.GetData(DataFormats.FileDrop);
-            LoadSave(folderPath[0]);
+            xsse.setPlayerName(tbxOwnName.Text);
         }
     }
 }

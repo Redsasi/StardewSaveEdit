@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnOpenSaveFile = new System.Windows.Forms.Button();
-            this.tbxXml = new System.Windows.Forms.TextBox();
             this.tbxOwnName = new System.Windows.Forms.TextBox();
             this.lblOwner = new System.Windows.Forms.Label();
             this.lblFarmers = new System.Windows.Forms.Label();
@@ -37,40 +35,26 @@
             this.btnSwapOwner = new System.Windows.Forms.Button();
             this.fbdStardewSave = new System.Windows.Forms.FolderBrowserDialog();
             this.fbdNewSave = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.tvSaveLoaded = new System.Windows.Forms.TreeView();
+            this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.tsbLoadSave = new System.Windows.Forms.ToolStripButton();
+            this.tsbSave = new System.Windows.Forms.ToolStripButton();
+            this.tsbSaveAs = new System.Windows.Forms.ToolStripButton();
+            this.tsMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnOpenSaveFile
-            // 
-            this.btnOpenSaveFile.Location = new System.Drawing.Point(13, 18);
-            this.btnOpenSaveFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnOpenSaveFile.Name = "btnOpenSaveFile";
-            this.btnOpenSaveFile.Size = new System.Drawing.Size(112, 35);
-            this.btnOpenSaveFile.TabIndex = 0;
-            this.btnOpenSaveFile.Text = "Open Save File";
-            this.btnOpenSaveFile.UseVisualStyleBackColor = true;
-            this.btnOpenSaveFile.Click += new System.EventHandler(this.btnOpenSaveFolder_Click);
-            // 
-            // tbxXml
-            // 
-            this.tbxXml.Location = new System.Drawing.Point(581, 18);
-            this.tbxXml.Multiline = true;
-            this.tbxXml.Name = "tbxXml";
-            this.tbxXml.Size = new System.Drawing.Size(443, 601);
-            this.tbxXml.TabIndex = 2;
             // 
             // tbxOwnName
             // 
-            this.tbxOwnName.Enabled = false;
-            this.tbxOwnName.Location = new System.Drawing.Point(223, 32);
+            this.tbxOwnName.Location = new System.Drawing.Point(659, 216);
             this.tbxOwnName.Name = "tbxOwnName";
             this.tbxOwnName.Size = new System.Drawing.Size(247, 26);
             this.tbxOwnName.TabIndex = 3;
+            this.tbxOwnName.Validated += new System.EventHandler(this.tbxOwnName_Validated);
             // 
             // lblOwner
             // 
             this.lblOwner.AutoSize = true;
-            this.lblOwner.Location = new System.Drawing.Point(150, 32);
+            this.lblOwner.Location = new System.Drawing.Point(586, 216);
             this.lblOwner.Name = "lblOwner";
             this.lblOwner.Size = new System.Drawing.Size(67, 20);
             this.lblOwner.TabIndex = 5;
@@ -79,7 +63,7 @@
             // lblFarmers
             // 
             this.lblFarmers.AutoSize = true;
-            this.lblFarmers.Location = new System.Drawing.Point(137, 77);
+            this.lblFarmers.Location = new System.Drawing.Point(573, 261);
             this.lblFarmers.Name = "lblFarmers";
             this.lblFarmers.Size = new System.Drawing.Size(80, 20);
             this.lblFarmers.TabIndex = 6;
@@ -89,14 +73,14 @@
             // 
             this.lbxFarmers.FormattingEnabled = true;
             this.lbxFarmers.ItemHeight = 20;
-            this.lbxFarmers.Location = new System.Drawing.Point(223, 77);
+            this.lbxFarmers.Location = new System.Drawing.Point(659, 261);
             this.lbxFarmers.Name = "lbxFarmers";
             this.lbxFarmers.Size = new System.Drawing.Size(247, 284);
             this.lbxFarmers.TabIndex = 7;
             // 
             // btnSwapOwner
             // 
-            this.btnSwapOwner.Location = new System.Drawing.Point(12, 69);
+            this.btnSwapOwner.Location = new System.Drawing.Point(793, 551);
             this.btnSwapOwner.Name = "btnSwapOwner";
             this.btnSwapOwner.Size = new System.Drawing.Size(113, 36);
             this.btnSwapOwner.TabIndex = 8;
@@ -104,15 +88,55 @@
             this.btnSwapOwner.UseVisualStyleBackColor = true;
             this.btnSwapOwner.Click += new System.EventHandler(this.btnSwapOwner_Click);
             // 
-            // btnSave
+            // tvSaveLoaded
             // 
-            this.btnSave.Location = new System.Drawing.Point(13, 590);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 28);
-            this.btnSave.TabIndex = 9;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.tvSaveLoaded.Location = new System.Drawing.Point(12, 157);
+            this.tvSaveLoaded.Name = "tvSaveLoaded";
+            this.tvSaveLoaded.Size = new System.Drawing.Size(283, 306);
+            this.tvSaveLoaded.TabIndex = 10;
+            // 
+            // tsMain
+            // 
+            this.tsMain.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbLoadSave,
+            this.tsbSave,
+            this.tsbSaveAs});
+            this.tsMain.Location = new System.Drawing.Point(0, 0);
+            this.tsMain.Name = "tsMain";
+            this.tsMain.Size = new System.Drawing.Size(1037, 33);
+            this.tsMain.TabIndex = 11;
+            this.tsMain.Text = "toolStrip1";
+            // 
+            // tsbLoadSave
+            // 
+            this.tsbLoadSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLoadSave.Image = global::StardewSaveEditor.Properties.Resources.FolderIcone;
+            this.tsbLoadSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbLoadSave.Name = "tsbLoadSave";
+            this.tsbLoadSave.Size = new System.Drawing.Size(34, 28);
+            this.tsbLoadSave.Text = "Load Save";
+            this.tsbLoadSave.Click += new System.EventHandler(this.tsbLoadSave_Click);
+            // 
+            // tsbSave
+            // 
+            this.tsbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSave.Image = global::StardewSaveEditor.Properties.Resources.SaveIcone;
+            this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSave.Name = "tsbSave";
+            this.tsbSave.Size = new System.Drawing.Size(34, 28);
+            this.tsbSave.Text = "toolStripButton1";
+            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
+            // 
+            // tsbSaveAs
+            // 
+            this.tsbSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSaveAs.Image = global::StardewSaveEditor.Properties.Resources.SavePlusIcone;
+            this.tsbSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSaveAs.Name = "tsbSaveAs";
+            this.tsbSaveAs.Size = new System.Drawing.Size(34, 28);
+            this.tsbSaveAs.Text = "toolStripButton1";
+            this.tsbSaveAs.Click += new System.EventHandler(this.tsbSaveAs_Click);
             // 
             // MainMenu
             // 
@@ -120,26 +144,25 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 631);
-            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.tsMain);
+            this.Controls.Add(this.tvSaveLoaded);
             this.Controls.Add(this.btnSwapOwner);
             this.Controls.Add(this.lbxFarmers);
             this.Controls.Add(this.lblFarmers);
             this.Controls.Add(this.lblOwner);
             this.Controls.Add(this.tbxOwnName);
-            this.Controls.Add(this.tbxXml);
-            this.Controls.Add(this.btnOpenSaveFile);
             this.Name = "MainMenu";
             this.Text = "MainMenu";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainMenu_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainMenu_DragEnter);
+            this.tsMain.ResumeLayout(false);
+            this.tsMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button btnOpenSaveFile;
-        private System.Windows.Forms.TextBox tbxXml;
         private System.Windows.Forms.TextBox tbxOwnName;
         private System.Windows.Forms.Label lblOwner;
         private System.Windows.Forms.Label lblFarmers;
@@ -147,7 +170,11 @@
         private System.Windows.Forms.Button btnSwapOwner;
         private System.Windows.Forms.FolderBrowserDialog fbdStardewSave;
         private System.Windows.Forms.FolderBrowserDialog fbdNewSave;
-        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TreeView tvSaveLoaded;
+        private System.Windows.Forms.ToolStrip tsMain;
+        private System.Windows.Forms.ToolStripButton tsbLoadSave;
+        private System.Windows.Forms.ToolStripButton tsbSave;
+        private System.Windows.Forms.ToolStripButton tsbSaveAs;
     }
 }
 
