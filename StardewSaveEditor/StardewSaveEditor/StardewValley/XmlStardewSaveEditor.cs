@@ -17,12 +17,18 @@ namespace StardewSaveEditor.StardewValley
         XmlDocument xtGameInfo = new XmlDocument();
         public XmlStardewSaveEditor(string path)
         {
-            //TODO : Verifier si le fichier xml est bien le fichiere de sauvegarde de stardew valley
             strSaveName = new DirectoryInfo(path).Name;
             string fileGameInfo = "SaveGameInfo";
 
-            xtSave.Load(new FileStream(Path.Combine(path, strSaveName), FileMode.Open));
-            xtGameInfo.Load(new FileStream(Path.Combine(path, fileGameInfo), FileMode.Open));
+            FileStream fsSave = new FileStream(Path.Combine(path, strSaveName), FileMode.Open);
+            FileStream fsGameInfo = new FileStream(Path.Combine(path, fileGameInfo), FileMode.Open);
+
+
+            xtSave.Load(fsSave);
+            xtGameInfo.Load(fsGameInfo);
+
+            fsSave.Close();
+            fsGameInfo.Close();
         }
         public string getSaveName()
         {
