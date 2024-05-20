@@ -185,7 +185,7 @@ namespace StardewSaveEditor.StardewValley
             setPlayerMultiplayerUniqueID(oldOwner, getPlayerMultiplayerUniqueID(newOwner));
             setPlayerMultiplayerUniqueID(newOwner, oldID);
 
-            //TODO : Ajouter les event de choix déjà eu (Cave de la ferme [65])
+            //Ajouter les event de choix déjà eu (Cave de la ferme [65])
             addEventToNewOwner(newOwner);
 
             //Echanger les maison pour qu'il soit correctement agencer
