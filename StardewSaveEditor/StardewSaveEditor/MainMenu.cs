@@ -35,6 +35,7 @@ namespace StardewSaveEditor
 
             DirectoryInfo dirInfo = new DirectoryInfo(path);
 
+            tvSaveLoaded.Nodes.Clear();
             TreeNode tnDir = tvSaveLoaded.Nodes.Add(dirInfo.Name);
             foreach (FileInfo file in dirInfo.GetFiles())
             {
