@@ -15,6 +15,8 @@ namespace StardewSaveEditor.StardewValley
         string strSaveName;
         XmlDocument xtSave = new XmlDocument();
         XmlDocument xtGameInfo = new XmlDocument();
+        XmlNamespaceManager nsmgSave;
+        XmlNamespaceManager nsmgGameInfo;
         public XmlStardewSaveEditor(string path)
         {
             strSaveName = new DirectoryInfo(path).Name;
@@ -29,6 +31,13 @@ namespace StardewSaveEditor.StardewValley
 
             fsSave.Close();
             fsGameInfo.Close();
+
+            nsmgSave = new XmlNamespaceManager(xtSave.NameTable);
+            nsmgGameInfo = new XmlNamespaceManager(xtGameInfo.NameTable);
+
+            nsmgSave.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            nsmgGameInfo.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+
         }
         public string getSaveName()
         {
@@ -48,17 +57,17 @@ namespace StardewSaveEditor.StardewValley
         #region Accesseur des node
         #region Accesseur absolu
         // Player
-        public XmlNode getPlayerNode()
+        public XmlNode getOwnerNode()
         {
             return xtSave.SelectSingleNode("/SaveGame/player");
         }
 
         // Player Name
-        public string getPlayerName()
+        public string getOwnerName()
         {
             return xtSave.SelectSingleNode("/SaveGame/player/name").InnerText;
         }
-        public void setPlayerName(string newName)
+        public void seOwnerName(string newName)
         {
             xtSave.SelectSingleNode("/SaveGame/player/name").InnerText = newName;
         }
@@ -67,6 +76,19 @@ namespace StardewSaveEditor.StardewValley
         public XmlNodeList getFarmers()
         {
             return xtSave.SelectNodes("/SaveGame/farmhands/Farmer");
+        }
+        public XmlNode getFarmLayout()
+        {
+            return xtSave.SelectSingleNode("/SaveGame/locations/GameLocation[@xsi:type='Farm']", nsmgSave);
+        }
+        public XmlNode getFarmHouse()
+        {
+            return xtSave.SelectSingleNode("/SaveGame/locations/GameLocation[@xsi:type='FarmHouse']", nsmgSave);
+        }
+        // List Cabins
+        public XmlNodeList getCabins()
+        {
+            return getFarmLayout().SelectNodes("buildings/Building/indoors[@xsi:type='Cabin']", nsmgSave);
         }
         #endregion
         #region Accesseur relatif 
@@ -78,19 +100,79 @@ namespace StardewSaveEditor.StardewValley
         {
             nodePlayer.SelectSingleNode("UniqueMultiplayerID").InnerText = newID;
         }
+
+        public string getPlayerHomeLocation(XmlNode nodePlayer)
+        {
+            return nodePlayer.SelectSingleNode("homeLocation").InnerText;
+        }
+
+        public void setPlayerHomeLocation(XmlNode nodePlayer, string newHomeLocation)
+        {
+            nodePlayer.SelectSingleNode("homeLocation").InnerText = newHomeLocation;
+        }
+
+        #endregion
+        #region Accesseur rechercher
+        public XmlNode getHomeNodeByHomeLocation(string homeLocation)
+        {
+            if(homeLocation == "FarmHouse")
+            {
+                return getFarmHouse();
+            }
+
+            XmlNodeList cabins = getCabins();
+            foreach(XmlNode cabin in cabins)
+            {
+                if(cabin.SelectSingleNode("uniqueName").InnerText == homeLocation)
+                {
+                    return cabin;
+                }
+            }
+            return null;
+
+
+        }
         #endregion
         #endregion
+        public void ChangeHomesBetweenPlayer(XmlNode nodePlayerA,XmlNode nodePLayerB)
+        {
+            //get homes ref
+            string homelocPlayerA = getPlayerHomeLocation(nodePlayerA);
+            string homelocPlayerB = getPlayerHomeLocation(nodePLayerB);
+
+            //change homes ref
+            setPlayerHomeLocation(nodePlayerA, homelocPlayerB); 
+            setPlayerHomeLocation(nodePLayerB, homelocPlayerA);
+
+            //change homes content
+            //Récuperer les bonne maison
+            XmlNode homeA = getHomeNodeByHomeLocation(homelocPlayerA);
+            XmlNode homeB = getHomeNodeByHomeLocation(homelocPlayerB);
+
+            //TODO : characters
+            XmlTools.ExchangeNodeContent(xtSave,homeA.SelectSingleNode("characters"), homeB.SelectSingleNode("characters"));
+            //TODO : objects
+            XmlTools.ExchangeNodeContent(xtSave, homeA.SelectSingleNode("objects"), homeB.SelectSingleNode("objects"));
+            //TODO : furniture
+            XmlTools.ExchangeNodeContent(xtSave, homeA.SelectSingleNode("furniture"), homeB.SelectSingleNode("furniture"));
+            //TODO : fridge
+            XmlTools.ExchangeNodeContent(xtSave, homeA.SelectSingleNode("fridge"), homeB.SelectSingleNode("fridge"));
+        }
 
         public void ChangeSaveOwner(int idOwner)
         {
-            XmlNode oldOwner = getPlayerNode();
+            XmlNode oldOwner = getOwnerNode();
             XmlNode newOwner = getFarmers()[idOwner];
+
+            //change id between player
             string oldID = getPlayerMultiplayerUniqueID(oldOwner);
             setPlayerMultiplayerUniqueID(oldOwner, getPlayerMultiplayerUniqueID(newOwner));
             setPlayerMultiplayerUniqueID(newOwner, oldID);
 
             //TODO : Ajouter les event de choix déjà eu (Cave de la ferme [65])
+
             //TODO : Echanger les maison pour qu'il soie correctement agencer
+            ChangeHomesBetweenPlayer(oldOwner, newOwner);
 
             XmlTools.ExchangeNodeContent(xtSave, newOwner, oldOwner);
         }

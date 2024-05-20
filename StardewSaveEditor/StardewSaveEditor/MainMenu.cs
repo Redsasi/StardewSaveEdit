@@ -75,7 +75,7 @@ namespace StardewSaveEditor
 
         public void setOwnerName()
         {
-            tbxOwnName.Text = xsse.getPlayerName();
+            tbxOwnName.Text = xsse.getOwnerName();
         }
 
         public void setFarmersListBox()
@@ -108,7 +108,7 @@ namespace StardewSaveEditor
 
         private void tbxOwnName_Validated(object sender, EventArgs e)
         {
-            xsse.setPlayerName(tbxOwnName.Text);
+            xsse.seOwnerName(tbxOwnName.Text);
         }
     }
 }
