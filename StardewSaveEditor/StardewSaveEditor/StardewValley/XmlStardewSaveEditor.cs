@@ -149,13 +149,13 @@ namespace StardewSaveEditor.StardewValley
             XmlNode homeA = getHomeNodeByHomeLocation(homelocPlayerA);
             XmlNode homeB = getHomeNodeByHomeLocation(homelocPlayerB);
 
-            //TODO : characters
+            //characters
             XmlTools.ExchangeNodeContent(xtSave,homeA.SelectSingleNode("characters"), homeB.SelectSingleNode("characters"));
-            //TODO : objects
+            //objects
             XmlTools.ExchangeNodeContent(xtSave, homeA.SelectSingleNode("objects"), homeB.SelectSingleNode("objects"));
-            //TODO : furniture
+            //furniture
             XmlTools.ExchangeNodeContent(xtSave, homeA.SelectSingleNode("furniture"), homeB.SelectSingleNode("furniture"));
-            //TODO : fridge
+            //fridge
             XmlTools.ExchangeNodeContent(xtSave, homeA.SelectSingleNode("fridge"), homeB.SelectSingleNode("fridge"));
         }
 
@@ -171,7 +171,7 @@ namespace StardewSaveEditor.StardewValley
 
             //TODO : Ajouter les event de choix déjà eu (Cave de la ferme [65])
 
-            //TODO : Echanger les maison pour qu'il soie correctement agencer
+            //Echanger les maison pour qu'il soit correctement agencer
             ChangeHomesBetweenPlayer(oldOwner, newOwner);
 
             XmlTools.ExchangeNodeContent(xtSave, newOwner, oldOwner);
