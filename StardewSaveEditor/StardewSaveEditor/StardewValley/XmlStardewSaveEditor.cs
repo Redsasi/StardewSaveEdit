@@ -48,7 +48,7 @@ namespace StardewSaveEditor.StardewValley
         {
             string strSavePath = Path.Combine(path, strSaveName);
             string strGameInfoPath = Path.Combine(path, "SaveGameInfo");
-            //TODO : corriger le bug ou quand l'on recharge la sauvegarde alors que l'on vien de sauvegarder la prochaine sauvegarde ne peux pas modifier le fichier (déjà ouvert)
+
             xtSave.Save(strSavePath);
             xtGameInfo.Save(strGameInfoPath);
 
@@ -158,6 +158,22 @@ namespace StardewSaveEditor.StardewValley
             //fridge
             XmlTools.ExchangeNodeContent(xtSave, homeA.SelectSingleNode("fridge"), homeB.SelectSingleNode("fridge"));
         }
+        public void addEventToPlayer(XmlNode player, string eventToAdd)
+        {
+            XmlNode newNode = xtSave.CreateElement("int");
+            newNode.InnerText = eventToAdd;
+            player.SelectSingleNode("eventsSeen").AppendChild(newNode);
+
+        }
+
+        public void addEventToNewOwner(XmlNode newOwner)
+        {
+            // Event 65
+            if(getFarmLayout().SelectSingleNode("farmCaveReady").InnerText == "true")
+            {
+                addEventToPlayer(newOwner, "65");
+            }
+        }
 
         public void ChangeSaveOwner(int idOwner)
         {
@@ -170,6 +186,7 @@ namespace StardewSaveEditor.StardewValley
             setPlayerMultiplayerUniqueID(newOwner, oldID);
 
             //TODO : Ajouter les event de choix déjà eu (Cave de la ferme [65])
+            addEventToNewOwner(newOwner);
 
             //Echanger les maison pour qu'il soit correctement agencer
             ChangeHomesBetweenPlayer(oldOwner, newOwner);
