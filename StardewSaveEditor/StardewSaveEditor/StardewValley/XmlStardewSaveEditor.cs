@@ -46,11 +46,14 @@ namespace StardewSaveEditor.StardewValley
         }
 
         #region Accesseur des node
+        #region Accesseur absolu
+        // Player
         public XmlNode getPlayerNode()
         {
             return xtSave.SelectSingleNode("/SaveGame/player");
         }
 
+        // Player Name
         public string getPlayerName()
         {
             return xtSave.SelectSingleNode("/SaveGame/player/name").InnerText;
@@ -60,17 +63,35 @@ namespace StardewSaveEditor.StardewValley
             xtSave.SelectSingleNode("/SaveGame/player/name").InnerText = newName;
         }
 
+        // List Farmer
         public XmlNodeList getFarmers()
         {
             return xtSave.SelectNodes("/SaveGame/farmhands/Farmer");
         }
-
+        #endregion
+        #region Accesseur relatif 
+        public string getPlayerMultiplayerUniqueID(XmlNode nodePlayer)
+        {
+            return nodePlayer.SelectSingleNode("UniqueMultiplayerID").InnerText;
+        }
+        public void setPlayerMultiplayerUniqueID(XmlNode nodePlayer, string newID)
+        {
+            nodePlayer.SelectSingleNode("UniqueMultiplayerID").InnerText = newID;
+        }
+        #endregion
         #endregion
 
         public void ChangeSaveOwner(int idOwner)
         {
             XmlNode oldOwner = getPlayerNode();
             XmlNode newOwner = getFarmers()[idOwner];
+            string oldID = getPlayerMultiplayerUniqueID(oldOwner);
+            setPlayerMultiplayerUniqueID(oldOwner, getPlayerMultiplayerUniqueID(newOwner));
+            setPlayerMultiplayerUniqueID(newOwner, oldID);
+
+            //TODO : Ajouter les event de choix déjà eu (Cave de la ferme [65])
+            //TODO : Echanger les maison pour qu'il soie correctement agencer
+
             XmlTools.ExchangeNodeContent(xtSave, newOwner, oldOwner);
         }
     }
