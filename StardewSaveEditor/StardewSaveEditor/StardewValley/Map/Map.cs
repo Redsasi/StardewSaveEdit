@@ -22,6 +22,8 @@ namespace StardewSaveEditor.StardewValley.Map
         #region XML map
         public Map()
         {
+
+            // TODO : Faire en sorte qu'il charge une map passer en paramettre
             xmlMapDoc = XmlTools.GetXmlDock(RESPATH + "Farm_Island.tmx");
 
             XmlNode xmlMap = xmlMapDoc.SelectSingleNode("map");
