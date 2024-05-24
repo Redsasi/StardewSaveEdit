@@ -4,19 +4,47 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StardewSaveEditor.StardewValley.Map
 {
     internal class Tile
     {
-        int id;
-        Image image;
+        List<Image> images;
 
-        public Tile(int id, Image image)
+        public Tile()
         {
-            this.id = id;
-            this.image = image;
+            this.images = new List<Image>();
         }
 
+        public void drawTile(Graphics g)
+        {
+            foreach(Image image in images)
+            {
+                g.DrawImage(image, 0, 0);
+            }
+        }
+
+        public void addImage(Image img)
+        {
+            images.Add(img);
+        }
+
+        public Image getImage()
+        {
+            Bitmap imageToDraw = new Bitmap(16,16);
+            using(Graphics g = Graphics.FromImage(imageToDraw))
+            {
+                foreach (Image image in images)
+                {
+                    g.DrawImage(image,new Rectangle(0,0,16,16));
+                }
+            }
+            return imageToDraw;
+        }
+        public List<Image> getImages()
+        {
+            return images;
+        }
     }
 }

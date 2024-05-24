@@ -41,5 +41,16 @@ namespace StardewSaveEditor.StardewValley
             ReplaceNodeContent(xmlDoc, nodeA, nodeB);
             ReplaceNodeContent(xmlDoc, nodeB, tempNode);
         }
+        public static XmlDocument GetXmlDock(string path)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            FileStream fsXml = new FileStream(path, FileMode.Open);
+
+            xmlDoc.Load(fsXml);
+
+            fsXml.Close();
+
+            return xmlDoc;
+        }
     }
 }

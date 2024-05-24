@@ -13,9 +13,12 @@ namespace StardewSaveEditor
 {
     public partial class MapMenu : Form
     {
+        Map Map;
         public MapMenu()
         {
             InitializeComponent();
+            Map = new Map();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -27,16 +30,11 @@ namespace StardewSaveEditor
         private void MapMenu_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            Font drawFont = new Font("Arial", 8);
-
-            Image imageToSplit = Image.FromFile("StardewValleyRessources\\spring_outdoorTileSheet_extra.png");
-
-            for (int i = 0; i < 20; i++)
-            {
-                g.FillRectangle(Brushes.Red, new Rectangle((i + 1) * 20, 20, 20, 20));
-                g.DrawImage(Map.GetSpecificImageFromTileSet(imageToSplit,i,8,16,16), new Point(((i+1)*20)+2,22));
-                g.DrawString($"{i}", drawFont , Brushes.Green, new Point(((i + 1) * 20) + 2, 44));
-            }
+            //g.ScaleTransform(0.5f, 0.5f);
+            Map.DrawMap(g);
+            //Map.DrawDicImage(g);
+            //Map.DrawAllInOne(g);
+            //g.ResetTransform();
         }
     }
 }

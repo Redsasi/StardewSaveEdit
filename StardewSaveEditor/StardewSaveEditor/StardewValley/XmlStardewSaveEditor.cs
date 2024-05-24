@@ -13,30 +13,16 @@ namespace StardewSaveEditor.StardewValley
     internal class XmlStardewSaveEditor
     {
         string strSaveName;
-        XmlDocument xtSave = new XmlDocument();
-        XmlDocument xtGameInfo = new XmlDocument();
+        XmlDocument xtSave;
         XmlNamespaceManager nsmgSave;
-        XmlNamespaceManager nsmgGameInfo;
         public XmlStardewSaveEditor(string path)
         {
             strSaveName = new DirectoryInfo(path).Name;
-            string fileGameInfo = "SaveGameInfo";
-
-            FileStream fsSave = new FileStream(Path.Combine(path, strSaveName), FileMode.Open);
-            FileStream fsGameInfo = new FileStream(Path.Combine(path, fileGameInfo), FileMode.Open);
-
-
-            xtSave.Load(fsSave);
-            xtGameInfo.Load(fsGameInfo);
-
-            fsSave.Close();
-            fsGameInfo.Close();
+            xtSave = XmlTools.GetXmlDock(Path.Combine(path, strSaveName));
 
             nsmgSave = new XmlNamespaceManager(xtSave.NameTable);
-            nsmgGameInfo = new XmlNamespaceManager(xtGameInfo.NameTable);
 
             nsmgSave.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-            nsmgGameInfo.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         }
         public string getSaveName()
@@ -47,10 +33,8 @@ namespace StardewSaveEditor.StardewValley
         public void Save(string path)
         {
             string strSavePath = Path.Combine(path, strSaveName);
-            string strGameInfoPath = Path.Combine(path, "SaveGameInfo");
 
             xtSave.Save(strSavePath);
-            xtGameInfo.Save(strGameInfoPath);
 
         }
 
